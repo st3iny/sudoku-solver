@@ -1,0 +1,8 @@
+# virtualenv
+.env
+
+# pycharm
+.idea
+
+# python 3
+__pycache__
