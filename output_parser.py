@@ -1,4 +1,4 @@
-from Literal import Literal
+from literal import Literal
 import numpy as np
 
 def parse_dimacs(dimacs_string):
