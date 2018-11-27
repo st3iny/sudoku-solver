@@ -1,25 +1,5 @@
+from literal import Literal
 import math
-
-
-class Literal:
-    """ represents a sudoku field as a cnf literal """
-    def __init__(self, x, y, z):
-        """ set coordinates """
-        self.x = x
-        self.y = y
-        self.z = z
-        self.negate = False
-
-    def __neg__(self):
-        """ unary negation operator """
-        literal = Literal(self.x, self.y, self.z)
-        literal.negate = not self.negate
-        return literal
-
-    def __str__(self):
-        """ format as cnf literal """
-        neg = '-' if self.negate else ''
-        return '{neg}{x}{y}{z}'.format(neg=neg, x=self.x, y=self.y, z=self.z)
 
 
 def build_constraints(puzzle):
