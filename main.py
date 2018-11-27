@@ -10,7 +10,7 @@ import sys
 def main(path):
     """ load puzzle from path, build constraints, solve them and print solved puzzle """
     # create out folder if not present
-    if not os.path.isdir('out') and not os.path.exists('out'):
+    if not os.path.exists('out'):
         os.mkdir('out')
 
     # parse puzzle and print it
