@@ -47,12 +47,15 @@ def write_output(model, dimension):
     """Requires the model as a list of strings and the dimensions and outputs the Sudoku
     to STDOUT"""
     outer_dimension = dimension ** 2
-    sudoku = np.zeros((outer_dimension, outer_dimension))
+    #sudoku = np.zeros((outer_dimension, outer_dimension))
+    sudoku = [[0] * outer_dimension for i in range(outer_dimension)]
 
     # Model in Sudoku Array überführen
     for literal_string in model:
         literal = Literal(literal_string, dimension)
-        sudoku[literal.x, literal.y] = literal.z
+        if literal.negate:
+            continue
+        sudoku[literal.x][literal.y] = literal.z
 
 
     # Belegung ins Output Format schreiben
