@@ -20,7 +20,7 @@ def parse_dimacs(dimacs_string):
         raise AttributeError("Das Parsen der Lösung ist fehlgeschlagen")
 
     # Throw away negative variables
-    # model = [var for var in model if var > 0]
+    print("Es gibt {} positive Literale.".format(len([var for var in model if int(var) > 0])))
 
     return model
 
@@ -30,42 +30,46 @@ def parse_dimacs(dimacs_string):
 def create_separator(inner_dimension):
     """Helper function for write_output"""
     separator = ["+"] * (inner_dimension + 1)
-    return ("-" * (2*inner_dimension + 1)).join(separator) + "\n"
+    max_length = inner_dimension ** 2 // 10 + 1
+    return ("-" * (inner_dimension * (max_length + 1 ) + 1)).join(separator) + "\n"
 
 def create_line(dimension, row):
     """Helper function for write_output"""
     line = "|"
     for i in range(dimension):
         numbers = [str(number) for number in row[dimension * i: dimension * (i + 1)]]
-        numbers_strings = [" " * (dimension**2 - len(number_string)) + number_string
+        max_length = dimension**2 // 10 + 1
+        numbers_strings = [" " * (max_length - len(number_string)) + number_string
                            for number_string in numbers]
-        line += " {} |".format(" ".join(numbers))
+        line += " {} |".format(" ".join(numbers_strings))
 
     return line
 
 def write_output(model, dimension):
     """Requires the model as a list of strings and the dimensions and outputs the Sudoku
     to STDOUT"""
-    outer_dimension = dimension ** 2
-    #sudoku = np.zeros((outer_dimension, outer_dimension))
-    sudoku = [[0] * outer_dimension for i in range(outer_dimension)]
+
+    sudoku = [[0] * dimension**2 for i in range(dimension**2)]
 
     # Model in Sudoku Array überführen
     for literal_string in model:
         literal = Literal(literal_string, dimension)
         if literal.negate:
             continue
-        sudoku[literal.x][literal.y] = literal.z
+        sudoku[literal.x - 1][literal.y - 1] = literal.z
 
+    for list in sudoku:
+        for ele in list:
+            assert int(ele) != 0
 
     # Belegung ins Output Format schreiben
     # neuer Ansatz
-    output = """experiment: generator (Time: _____ s)
-    number of tasks: ____
-    task: ____
-    puzzle size: {}x{}\n""".format(outer_dimension, outer_dimension)
+    output = ("experiment: generator (Time: _____ s) \n" +
+                "number of tasks: ____\n" +
+                "task: ____\n" +
+                "puzzle size: {}x{}\n").format(dimension**2, dimension**2)
 
-    for i in range(outer_dimension):
+    for i in range(dimension**2):
         if i % dimension == 0:
             output += create_separator(dimension)
         output += create_line(dimension, sudoku[i]) + "\n"
