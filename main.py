@@ -1,40 +1,45 @@
 from constraint_builder import build_constraints
-from parser import parse_cnf, parse_puzzle
+from input_parser import parse_input
 from print_puzzle import print_puzzle
 import subprocess
 import sys
+
+import math
+from output_parser import parse_dimacs, write_output
 
 
 def main(path):
     """ load puzzle from path, build constraints, solve them and print solved puzzle """
     # parse puzzle and print it
-    puzzle = parse_puzzle(path)
+    puzzle = parse_input(path)
     print_puzzle(puzzle)
 
     # build constraints from parsed puzzle
     constraints = build_constraints(puzzle)
 
     # write cnf output file
-    size = len(puzzle)
+    size = int(math.sqrt(len(puzzle)))
     with open('out/sat.in.cnf', 'w') as file:
         # write problem meta
         file.write('p cnf {literal_count} {clause_count}\n'.format(
-            literal_count=size * size * size, clause_count=len(constraints)))
+            literal_count=size ** 6, clause_count=len(constraints)))
 
         # write constraints
         for row in constraints:
             literals = [str(literal) for literal in row]
             file.write('{literals} 0\n'.format(literals=' '.join(literals)))
 
-    # run sat solver (glucose)
-    process = subprocess.run(['glucose', 'out/sat.in.cnf', 'out/sat.out.cnf'], capture_output=True)
-    with open('out/glucose.stdout', 'w') as file:
-        file.write(str(process.stdout))
+    # run sat solver
+    process = subprocess.run(['riss/bin/riss', 'out/sat.in.cnf'], capture_output=True)
+    stdout = process.stdout.decode('UTF-8')
 
-    # convert result into sudoku and print it
-    solved_puzzle = parse_cnf('out/sat.out.cnf', size)
-    print('---')
-    print_puzzle(solved_puzzle)
+    # write stdout for debug
+    with open('out/riss.stdout', 'w') as file:
+        file.write(stdout)
+
+    # parse dimacs and write output
+    model = parse_dimacs(stdout.splitlines())
+    write_output(model, size)
 
 
 if __name__ == '__main__':

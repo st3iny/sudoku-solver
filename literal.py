@@ -32,7 +32,7 @@ class Literal:
 
     def __neg__(self):
         """ unary negation operator """
-        literal = Literal(self.x, self.y, self.z)
+        literal = Literal(self.x, self.y, self.z, self.size)
         literal.negate = not self.negate
         return literal
 
