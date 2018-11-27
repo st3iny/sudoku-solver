@@ -1,18 +1,20 @@
 from constraint_builder import build_constraints
 from input_parser import parse_input
-from print_puzzle import print_puzzle
-import subprocess
-import sys
-
 import math
 from output_parser import parse_dimacs, write_output
+import os
+import subprocess
+import sys
 
 
 def main(path):
     """ load puzzle from path, build constraints, solve them and print solved puzzle """
+    # create out folder if not present
+    if not os.path.exists('out'):
+        os.mkdir('out')
+
     # parse puzzle and print it
     puzzle = parse_input(path)
-    print_puzzle(puzzle)
 
     # build constraints from parsed puzzle
     constraints = build_constraints(puzzle)
