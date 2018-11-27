@@ -19,7 +19,7 @@ class Literal:
 
             # convert index to 3d coords
             self.z = index // (self.inner_size ** 4) + 1
-            index -= self.z * (self.inner_size ** 4)
+            index -= (self.z - 1) * (self.inner_size ** 4)
             self.y = index // (self.inner_size ** 2) + 1
             self.x = index % (self.inner_size ** 2) + 1
         else:
