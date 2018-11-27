@@ -43,8 +43,8 @@ def build_constraints(puzzle):
                     for y in range(1, inner_size + 1):
                         for k in range(y + 1, inner_size + 1):
                             constraints.append([
-                                -Literal(3 * i + x, 3 * j + y, z, inner_size),
-                                -Literal(3 * i + x, 3 * j + k, z, inner_size),
+                                -Literal(inner_size * i + x, inner_size * j + y, z, inner_size),
+                                -Literal(inner_size * i + x, inner_size * j + k, z, inner_size),
                             ])
 
     for z in range(1, outer_size + 1):
@@ -55,8 +55,8 @@ def build_constraints(puzzle):
                         for k in range(x + 1, inner_size + 1):
                             for l in range(1, inner_size + 1):
                                 constraints.append([
-                                    -Literal(3 * i + x, 3 * j + y, z, inner_size),
-                                    -Literal(3 * i + k, 3 * j + l, z, inner_size),
+                                    -Literal(inner_size * i + x, inner_size * j + y, z, inner_size),
+                                    -Literal(inner_size * i + k, inner_size * j + l, z, inner_size),
                                 ])
 
     # initially set fields
