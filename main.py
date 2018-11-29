@@ -53,4 +53,11 @@ if __name__ == '__main__':
     for path in sys.argv[1:]:
         print('Solving {path} ...'.format(path=path))
         main(path)
-        print('\n')
+
+        # print line seperators after all but the last path
+        if path != sys.argv[-1]:
+            print('\n')
+
+    # no path given
+    if len(sys.argv) == 1:
+        print('No sudoku puzzle path given.')
