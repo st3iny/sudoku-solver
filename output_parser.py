@@ -45,10 +45,8 @@ def create_line(dimension, row):
 
     return line
 
-def write_output(model, dimension):
-    """Requires the model as a list of strings and the dimensions and outputs the Sudoku
-    to STDOUT"""
-
+def parse_model(model, dimension):
+    """ parse model into sudoku puzzle matrix """
     sudoku = [[0] * dimension**2 for i in range(dimension**2)]
 
     # Model in Sudoku Array überführen
@@ -57,6 +55,14 @@ def write_output(model, dimension):
         if literal.negate:
             continue
         sudoku[literal.x - 1][literal.y - 1] = literal.z
+
+    return sudoku
+
+def write_output(model, dimension):
+    """Requires the model as a list of strings and the dimensions and outputs the Sudoku
+    to STDOUT"""
+
+    sudoku = parse_model(model, dimension)
 
     for list in sudoku:
         for ele in list:

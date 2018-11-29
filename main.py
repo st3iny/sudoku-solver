@@ -5,6 +5,7 @@ from output_parser import parse_dimacs, write_output
 import os
 import subprocess
 import sys
+from test import test_model
 
 
 def main(path):
@@ -43,6 +44,13 @@ def main(path):
     model = parse_dimacs(stdout.splitlines())
     write_output(model, size)
 
+    # verify model
+    test_model(puzzle, model)
+
 
 if __name__ == '__main__':
-    main(sys.argv[1])
+    # run main for every given path
+    for path in sys.argv[1:]:
+        print('Solving {path} ...'.format(path=path))
+        main(path)
+        print('\n')
