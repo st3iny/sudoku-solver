@@ -1,5 +1,6 @@
 from literal import Literal
 import numpy as np
+import re
 
 def parse_dimacs(dimacs_string):
     # Belegung parsen
@@ -19,8 +20,6 @@ def parse_dimacs(dimacs_string):
     else:
         raise AttributeError("Das Parsen der Lösung ist fehlgeschlagen")
 
-    # Throw away negative variables
-    print("Es gibt {} positive Literale.".format(len([var for var in model if int(var) > 0])))
 
     return model
 
@@ -58,19 +57,24 @@ def parse_model(model, dimension):
 
     return sudoku
 
-def write_output(model, dimension):
+def match_CPU_time(stdout):
+    pattern = r"c CPU time\s+: (\d+\.*\d*) s"
+    result = re.search(pattern, stdout)
+    return result.group(1)
+
+def write_output(model, dimension, stdout):
     """Requires the model as a list of strings and the dimensions and outputs the Sudoku
     to STDOUT"""
 
     sudoku = parse_model(model, dimension)
-
+    cpu_time = match_CPU_time(stdout)
     for list in sudoku:
         for ele in list:
             assert int(ele) != 0
 
     # Belegung ins Output Format schreiben
     # neuer Ansatz
-    output = ("experiment: generator (Time: _____ s) \n" +
+    output = ("experiment: generator (Time: {} s) \n".format(cpu_time) +
                 "number of tasks: ____\n" +
                 "task: ____\n" +
                 "puzzle size: {}x{}\n").format(dimension**2, dimension**2)
@@ -83,3 +87,6 @@ def write_output(model, dimension):
         output += create_separator(dimension)
 
     print(output)
+
+class SolverOutput():
+    pass

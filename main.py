@@ -42,7 +42,7 @@ def main(path):
 
     # parse dimacs and write output
     model = parse_dimacs(stdout.splitlines())
-    write_output(model, size)
+    write_output(model, size, stdout)
 
     # verify model
     test_model(puzzle, model)
