@@ -62,7 +62,7 @@ def match_CPU_time(stdout):
     result = re.search(pattern, stdout)
     return result.group(1)
 
-def write_output(model, dimension, stdout):
+def write_output(model, dimension, stdout, time):
     """Requires the model as a list of strings and the dimensions and outputs the Sudoku
     to STDOUT"""
 
@@ -74,9 +74,8 @@ def write_output(model, dimension, stdout):
 
     # Belegung ins Output Format schreiben
     # neuer Ansatz
-    output = ("experiment: generator (Time: {} s) \n".format(cpu_time) +
-                "number of tasks: ____\n" +
-                "task: ____\n" +
+    output = ("Riss Time: {:.3} s \n".format(cpu_time) +
+              "Riss + Python Time: {:.3} s \n".format(time) +
                 "puzzle size: {}x{}\n").format(dimension**2, dimension**2)
 
     for i in range(dimension**2):

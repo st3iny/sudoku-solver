@@ -1,3 +1,5 @@
+import time
+
 from constraint_builder import build_constraints
 from input_parser import parse_input
 import math
@@ -11,6 +13,8 @@ from test import test_model
 def main(path):
     """ load puzzle from path, build constraints, solve them and print solved puzzle """
     # create out folder if not present
+    start_time = time.time()
+
     if not os.path.exists('out'):
         os.mkdir('out')
 
@@ -42,7 +46,9 @@ def main(path):
 
     # parse dimacs and write output
     model = parse_dimacs(stdout.splitlines())
-    write_output(model, size, stdout)
+    end_time = time.time()
+
+    write_output(model, size, stdout, end_time - start_time)
 
     # verify model
     test_model(puzzle, model)

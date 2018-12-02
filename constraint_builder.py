@@ -59,6 +59,50 @@ def build_constraints(puzzle):
                                     -Literal(inner_size * i + k, inner_size * j + l, z, inner_size),
                                 ])
 
+    # baseline 25x25: 0.955s
+
+    # There is at most one number in
+    for x in range(1, outer_size + 1):
+        for y in range(1, outer_size + 1):
+            for z in range(1, outer_size):
+                for i in range(z+1, outer_size + 1):
+                    constraints.append([
+                        -Literal(x,y,z, inner_size),
+                        -Literal(x,y,i, inner_size)
+                    ])
+    # new time 25x25: 1.10 s
+
+    # Each number appears at least once in each row
+    for y in range(1, outer_size + 1):
+        for z in range(1, outer_size + 1):
+            constraints.append(list())
+            for x in range(1, outer_size + 1):
+                constraints[-1].append(Literal(x,y,z,inner_size))
+
+    # new time 25x25: 0.1 s
+    # → 36x36 : 0.7 s
+    # → 49x49 : 3s
+
+    # Each number appears at least once in each column
+    for x in range(1, outer_size + 1):
+        for z in range(1, outer_size + 1):
+            constraints.append(list())
+            for y in range(1, outer_size + 1):
+                constraints[-1].append(Literal(x,y,z, inner_size))
+
+    # 49x49 : 2s, allerdings 100s insgesamt mit parser
+
+    # Each number appears at least once in each 3x3 sub-grid:
+    for z in range(1,outer_size +1):
+        for i in range(inner_size):
+            for j in range(inner_size):
+                constraints.append(list())
+                for x in range(1,inner_size + 1):
+                    for y in range(1, inner_size + 1):
+                        constraints[-1].append(Literal(inner_size*i+x,inner_size*j + y, z, inner_size))
+
+    # 49x49:
+
     # initially set fields
     for x in range(outer_size):
         for y in range(outer_size):
