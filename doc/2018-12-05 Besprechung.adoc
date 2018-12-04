@@ -78,5 +78,4 @@ Woche 2: Zusammenbringen und Feinschliff
 * Logikminimierer nachschauen
 
 ===== Wenn Richard und Georgs Source Code übernommen werden sollte
-* Literal durch Methoden ersetzen
 * Listen durch vorallokierte ndarrays ersetzen
