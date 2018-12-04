@@ -2,12 +2,13 @@
 
 === Tagesordnung
 * Tagesordnung bestätigen
-* Kollaborationsvereinbarung ~ 30 min
+* Kennenlernen je nach Bedarf ~ 10 min
+* Kollaborationsvereinbarung ~ 25 min
 ** Ziele
 ** Arbeitszeit
 ** Verhaltenscodex
 * Technologie ~ 30 min
-* Aufgabenverteilung ~ 30 min
+* Aufgabenverteilung ~ 25 min
 
 === Präambel
 Ziel dieses Meetings ist, entweder auf einen gemeinsamen Nenner zu kommen und konkrete Aufgaben zu definieren *oder* weiterhin getrennte Wege zu gehen.
@@ -17,6 +18,7 @@ Jeder erklärt kurz seine persönlichen Erwartungen und es wird ein gemeinsames 
 Vorschlag Generell: +
 Wir wollen durch effektives kollaboratives Zusammenarbeiten und Ausnutzung der gegebenen Ressource mit moderatem Zeitaufwand die SAT Challenge der Vorlesung Formale System gewinnen. Unser Vorteil gegenüber anderen Teams ist die strukturierte, organisierte und dadurch effiziente Arbeitsweise im Vergleich mit den anderen studentischen Teams.
 Martins Ziel: +
+Mir persönlich ist es auch nicht so wichtig zu "gewinnen" oder gut abzuschneiden, ich möchte eher etwas an meiner programmierung arbeiten und finde das thema recht interessant.
 
 
 === Zeitaufwand
@@ -59,7 +61,7 @@ Woche 2: Zusammenbringen und Feinschliff
 ==== Aufgabenverteilung
 
 ===== Hohe Priorität
-* Solververgleich und Flags bestimmen
+* Recherche und Auswalh des Solvers, erarbeiten der korrekten Flags
 * Encodings und Verbesserungen
 * Präprozessor: implementieren oder nutzen
 * Planung
