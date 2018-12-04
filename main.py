@@ -33,8 +33,7 @@ def main(path):
 
         # write constraints
         for row in constraints:
-            literals = [str(literal) for literal in row]
-            file.write('{literals} 0\n'.format(literals=' '.join(literals)))
+            file.write('{literals} 0\n'.format(literals=' '.join(row)))
 
     # run sat solver
     process = subprocess.run(['riss/bin/riss', 'out/sat.in.cnf'], capture_output=True)

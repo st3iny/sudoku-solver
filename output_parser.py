@@ -1,4 +1,4 @@
-from literal import Literal
+import literal
 import numpy as np
 import re
 
@@ -50,10 +50,10 @@ def parse_model(model, dimension):
 
     # Model in Sudoku Array überführen
     for literal_string in model:
-        literal = Literal(literal_string, dimension)
-        if literal.negate:
+        x, y, z, neg = literal.read(literal_string, dimension)
+        if neg:
             continue
-        sudoku[literal.x - 1][literal.y - 1] = literal.z
+        sudoku[x - 1][y - 1] = z
 
     return sudoku
 
