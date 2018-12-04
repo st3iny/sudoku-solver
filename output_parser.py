@@ -1,6 +1,6 @@
 import literal
-import numpy as np
 import re
+
 
 def parse_dimacs(dimacs_string):
     # Belegung parsen
@@ -20,7 +20,6 @@ def parse_dimacs(dimacs_string):
     else:
         raise AttributeError("Das Parsen der Lösung ist fehlgeschlagen")
 
-
     return model
 
 # TODO: Belegung überprüfen
@@ -30,7 +29,8 @@ def create_separator(inner_dimension):
     """Helper function for write_output"""
     separator = ["+"] * (inner_dimension + 1)
     max_length = inner_dimension ** 2 // 10 + 1
-    return ("-" * (inner_dimension * (max_length + 1 ) + 1)).join(separator) + "\n"
+    return ("-" * (inner_dimension * (max_length + 1) + 1)).join(separator) + "\n"
+
 
 def create_line(dimension, row):
     """Helper function for write_output"""
@@ -43,6 +43,7 @@ def create_line(dimension, row):
         line += " {} |".format(" ".join(numbers_strings))
 
     return line
+
 
 def parse_model(model, dimension):
     """ parse model into sudoku puzzle matrix """
@@ -57,10 +58,12 @@ def parse_model(model, dimension):
 
     return sudoku
 
+
 def match_CPU_time(stdout):
     pattern = r"c CPU time\s+: (\d+\.*\d*) s"
     result = re.search(pattern, stdout)
     return result.group(1)
+
 
 def write_output(model, dimension, stdout, time):
     """Requires the model as a list of strings and the dimensions and outputs the Sudoku
@@ -76,7 +79,7 @@ def write_output(model, dimension, stdout, time):
     # neuer Ansatz
     output = ("Riss Time: {:.3} s \n".format(cpu_time) +
               "Riss + Python Time: {:.3} s \n".format(time) +
-                "puzzle size: {}x{}\n").format(dimension**2, dimension**2)
+              "puzzle size: {}x{}\n").format(dimension ** 2, dimension ** 2)
 
     for i in range(dimension**2):
         if i % dimension == 0:
@@ -86,6 +89,3 @@ def write_output(model, dimension, stdout, time):
         output += create_separator(dimension)
 
     print(output)
-
-class SolverOutput():
-    pass
