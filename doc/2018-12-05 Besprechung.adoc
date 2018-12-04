@@ -8,7 +8,10 @@
 ** Arbeitszeit
 ** Verhaltenscodex
 * Technologie ~ 30 min
-* Aufgabenverteilung ~ 25 min
+* konkrete Organisation
+** Zeitplan
+** Aufgabenverteilung ~ 25 min
+** weitere Termine
 
 === Präambel
 Ziel dieses Meetings ist, entweder auf einen gemeinsamen Nenner zu kommen und konkrete Aufgaben zu definieren *oder* weiterhin getrennte Wege zu gehen.
@@ -81,3 +84,6 @@ Woche 2: Zusammenbringen und Feinschliff
 
 ===== Wenn Richard und Georgs Source Code übernommen werden sollte
 * Listen durch vorallokierte ndarrays ersetzen
+
+==== weitere Termine
+Ist ein weiterer Termin gewünscht und wenn ja, wann haben alle Zeit?
