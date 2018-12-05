@@ -1,13 +1,12 @@
-import time
-
 from constraint_builder import build_constraints
 from input_parser import parse_input
 import math
-from output_parser import parse_dimacs, write_output
+from output_parser import parse_model, write_output
 import os
-import subprocess
+from pycryptosat import Solver
 import sys
 from test import test_model
+import time
 
 
 def main(path):
@@ -20,34 +19,30 @@ def main(path):
 
     # parse puzzle and print it
     puzzle = parse_input(path)
+    inner_size = int(math.sqrt(len(puzzle)))
+
+    # create solver
+    solver = Solver()
 
     # build constraints from parsed puzzle
-    constraints = build_constraints(puzzle)
-
-    # write cnf output file
-    size = int(math.sqrt(len(puzzle)))
-    with open('out/sat.in.cnf', 'w') as file:
-        # write problem meta
-        file.write('p cnf {literal_count} {clause_count}\n'.format(
-            literal_count=size ** 6, clause_count=len(constraints)))
-
-        # write constraints
-        for row in constraints:
-            file.write('{literals} 0\n'.format(literals=' '.join(row)))
+    build_constraints(puzzle, solver)
 
     # run sat solver
-    process = subprocess.run(['riss/bin/riss', 'out/sat.in.cnf'], capture_output=True)
-    stdout = process.stdout.decode('UTF-8')
+    solver_start_time = time.time()
+    sat, model = solver.solve()
+    solver_end_time = time.time()
 
-    # write stdout for debug
-    with open('out/riss.stdout', 'w') as file:
-        file.write(stdout)
+    # print solver output and stop execution if not satisfiable
+    if sat:
+        print('SATISFIABLE')
+    else:
+        print('UNSATISFIABLE')
+        return
 
     # parse dimacs and write output
-    model = parse_dimacs(stdout.splitlines())
+    solution = parse_model(model, inner_size)
     end_time = time.time()
-
-    write_output(model, size, stdout, end_time - start_time)
+    write_output(solution, inner_size, end_time - start_time, solver_end_time - solver_start_time)
 
     # verify model
     test_model(puzzle, model)

@@ -1,28 +1,4 @@
 import literal
-import re
-
-
-def parse_dimacs(dimacs_string):
-    # Belegung parsen
-    for line in dimacs_string:
-        if line.startswith("c"):
-            continue
-        elif line.startswith("s") and line.split(" ")[1] == "UNSATISFIABLE":
-            print("Es gibt keine Lösung für das Sudoku.")
-            break
-        elif line.startswith("s") and line.split(" ")[1] == "SATISFIABLE":
-            print("Es existiert eine Lösung für das Sudoku.")
-        elif line.startswith("v"):
-            model = [variable for variable in line.split(" ") if variable != "v" and int(variable) != 0]
-            break
-        else:
-            raise ValueError("Fehlerhafte Input Datei\nFolgende Zeile kann nicht gelesen werden: {}".format(line))
-    else:
-        raise AttributeError("Das Parsen der Lösung ist fehlgeschlagen")
-
-    return model
-
-# TODO: Belegung überprüfen
 
 
 def create_separator(inner_dimension):
@@ -50,8 +26,8 @@ def parse_model(model, dimension):
     sudoku = [[0] * dimension**2 for i in range(dimension**2)]
 
     # Model in Sudoku Array überführen
-    for literal_string in model:
-        x, y, z, neg = literal.read(literal_string, dimension)
+    for lit, status in enumerate(model):
+        x, y, z, neg = literal.read(lit, status, dimension)
         if neg:
             continue
         sudoku[x - 1][y - 1] = z
@@ -59,32 +35,19 @@ def parse_model(model, dimension):
     return sudoku
 
 
-def match_CPU_time(stdout):
-    pattern = r"c CPU time\s+: (\d+\.*\d*) s"
-    result = re.search(pattern, stdout)
-    return result.group(1)
-
-
-def write_output(model, dimension, stdout, time):
+def write_output(solution, dimension, total_time, solver_time):
     """Requires the model as a list of strings and the dimensions and outputs the Sudoku
     to STDOUT"""
-
-    sudoku = parse_model(model, dimension)
-    cpu_time = match_CPU_time(stdout)
-    for list in sudoku:
-        for ele in list:
-            assert int(ele) != 0
-
     # Belegung ins Output Format schreiben
     # neuer Ansatz
-    output = ("Riss Time: {:.3} s \n".format(cpu_time) +
-              "Riss + Python Time: {:.3} s \n".format(time) +
+    output = ("solver time: {:.3} s \n".format(solver_time) +
+              "total time: {:.3} s \n".format(total_time) +
               "puzzle size: {}x{}\n").format(dimension ** 2, dimension ** 2)
 
     for i in range(dimension**2):
         if i % dimension == 0:
             output += create_separator(dimension)
-        output += create_line(dimension, sudoku[i]) + "\n"
+        output += create_line(dimension, solution[i]) + "\n"
     else:
         output += create_separator(dimension)
 

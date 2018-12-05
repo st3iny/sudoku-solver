@@ -2,27 +2,26 @@ import literal
 import math
 
 
-def build_constraints(puzzle):
-    """ build constraint list for the sat solver from the given puzzle """
+def build_constraints(puzzle, solver):
+    """ build constraint and pass them to the sat solver from the given puzzle"""
     outer_size = len(puzzle)
+    outer_size_squared = outer_size ** 2
     inner_size = int(math.sqrt(outer_size))
-    constraints = list()
 
     # at least one number in each entry
     for x in range(1, outer_size + 1):
         for y in range(1, outer_size + 1):
-            constraints.append(list())
-            for z in range(1, outer_size + 1):
-                constraints[-1].append(literal.write(x, y, z, False, inner_size))
+            clause = [literal.write(x, y, z, False, outer_size, outer_size_squared) for z in range(1, outer_size + 1)]
+            solver.add_clause(clause)
 
     # each number appears at most once in each row
     for y in range(1, outer_size + 1):
         for z in range(1, outer_size + 1):
             for x in range(1, outer_size):
                 for i in range(x + 1, outer_size + 1):
-                    constraints.append([
-                        literal.write(x, y, z, True, inner_size),
-                        literal.write(i, y, z, True, inner_size),
+                    solver.add_clause([
+                        literal.write(x, y, z, True, outer_size, outer_size_squared),
+                        literal.write(i, y, z, True, outer_size, outer_size_squared),
                     ])
 
     # each number appears at most once in each column
@@ -30,9 +29,9 @@ def build_constraints(puzzle):
         for z in range(1, outer_size + 1):
             for y in range(1, outer_size):
                 for i in range(y + 1, outer_size + 1):
-                    constraints.append([
-                        literal.write(x, y, z, True, inner_size),
-                        literal.write(x, i, z, True, inner_size),
+                    solver.add_clause([
+                        literal.write(x, y, z, True, outer_size, outer_size_squared),
+                        literal.write(x, i, z, True, outer_size, outer_size_squared),
                     ])
 
     # each number appears at most once in each subgrid
@@ -42,9 +41,9 @@ def build_constraints(puzzle):
                 for x in range(1, inner_size + 1):
                     for y in range(1, inner_size + 1):
                         for k in range(y + 1, inner_size + 1):
-                            constraints.append([
-                                literal.write(inner_size * i + x, inner_size * j + y, z, True, inner_size),
-                                literal.write(inner_size * i + x, inner_size * j + k, z, True, inner_size),
+                            solver.add_clause([
+                                literal.write(inner_size * i + x, inner_size * j + y, z, True, outer_size, outer_size_squared),
+                                literal.write(inner_size * i + x, inner_size * j + k, z, True, outer_size, outer_size_squared),
                             ])
 
     for z in range(1, outer_size + 1):
@@ -54,9 +53,9 @@ def build_constraints(puzzle):
                     for y in range(1, inner_size + 1):
                         for k in range(x + 1, inner_size + 1):
                             for l in range(1, inner_size + 1):
-                                constraints.append([
-                                    literal.write(inner_size * i + x, inner_size * j + y, z, True, inner_size),
-                                    literal.write(inner_size * i + k, inner_size * j + l, z, True, inner_size),
+                                solver.add_clause([
+                                    literal.write(inner_size * i + x, inner_size * j + y, z, True, outer_size, outer_size_squared),
+                                    literal.write(inner_size * i + k, inner_size * j + l, z, True, outer_size, outer_size_squared),
                                 ])
 
     # baseline 25x25: 0.955s
@@ -66,18 +65,17 @@ def build_constraints(puzzle):
         for y in range(1, outer_size + 1):
             for z in range(1, outer_size):
                 for i in range(z + 1, outer_size + 1):
-                    constraints.append([
-                        literal.write(x, y, z, True, inner_size),
-                        literal.write(x, y, i, True, inner_size)
+                    solver.add_clause([
+                        literal.write(x, y, z, True, outer_size, outer_size_squared),
+                        literal.write(x, y, i, True, outer_size, outer_size_squared)
                     ])
     # new time 25x25: 1.10 s
 
     # Each number appears at least once in each row
     for y in range(1, outer_size + 1):
         for z in range(1, outer_size + 1):
-            constraints.append(list())
-            for x in range(1, outer_size + 1):
-                constraints[-1].append(literal.write(x, y, z, False, inner_size))
+            clause = [literal.write(x, y, z, False, outer_size, outer_size_squared) for x in range(1, outer_size + 1)]
+            solver.add_clause(clause)
 
     # new time 25x25: 0.1 s
     # → 36x36 : 0.7 s
@@ -86,9 +84,8 @@ def build_constraints(puzzle):
     # Each number appears at least once in each column
     for x in range(1, outer_size + 1):
         for z in range(1, outer_size + 1):
-            constraints.append(list())
-            for y in range(1, outer_size + 1):
-                constraints[-1].append(literal.write(x, y, z, False, inner_size))
+            clause = [literal.write(x, y, z, False, outer_size, outer_size_squared) for y in range(1, outer_size + 1)]
+            solver.add_clause(clause)
 
     # 49x49 : 2s, allerdings 100s insgesamt mit parser
 
@@ -96,10 +93,11 @@ def build_constraints(puzzle):
     for z in range(1, outer_size + 1):
         for i in range(inner_size):
             for j in range(inner_size):
-                constraints.append(list())
+                clause = list()
                 for x in range(1, inner_size + 1):
                     for y in range(1, inner_size + 1):
-                        constraints[-1].append(literal.write(inner_size * i + x, inner_size * j + y, z, False, inner_size))
+                        clause.append(literal.write(inner_size * i + x, inner_size * j + y, z, False, outer_size, outer_size_squared))
+                solver.add_clause(clause)
 
     # 49x49:
 
@@ -108,6 +106,4 @@ def build_constraints(puzzle):
         for y in range(outer_size):
             z = puzzle[x][y]
             if z > 0:
-                constraints.append([literal.write(x + 1, y + 1, z, False, inner_size)])
-
-    return constraints
+                solver.add_clause([literal.write(x + 1, y + 1, z, False, outer_size, outer_size_squared)])
