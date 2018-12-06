@@ -1,26 +1,15 @@
 == Besprechung 5.12.2018
-
-=== Tagesordnung
-* Tagesordnung bestätigen
-* Kennenlernen je nach Bedarf ~ 10 min
-* Kollaborationsvereinbarung ~ 25 min
-** Ziele
-** Arbeitszeit
-** Verhaltenscodex
-* Technologie ~ 30 min
-* konkrete Organisation
-** Zeitplan
-** Aufgabenverteilung ~ 25 min
-** weitere Termine
-
-=== Präambel
-Ziel dieses Meetings ist, entweder auf einen gemeinsamen Nenner zu kommen und konkrete Aufgaben zu definieren *oder* weiterhin getrennte Wege zu gehen.
+:toc:
 
 === Ziel
-Jeder erklärt kurz seine persönlichen Erwartungen und es wird ein gemeinsames Ziel verabschiedet.
-Vorschlag Generell: +
+.Ziel des Teams
 Wir wollen durch effektives kollaboratives Zusammenarbeiten und Ausnutzung der gegebenen Ressource mit moderatem Zeitaufwand die SAT Challenge der Vorlesung Formale System gewinnen. Unser Vorteil gegenüber anderen Teams ist die strukturierte, organisierte und dadurch effiziente Arbeitsweise im Vergleich mit den anderen studentischen Teams.
-Martins Ziel: +
+
+.Persönlichen Ziele
+Die persönlichen Ziele von Klaus, Markus, Richard und Georg stimmen mit dem Ziel des Teams überein
+
+.Martins Ziel:
+[quote, Martin Weih]
 Mir persönlich ist es auch nicht so wichtig zu "gewinnen" oder gut abzuschneiden, ich möchte eher etwas an meiner programmierung arbeiten und finde das thema recht interessant.
 
 
@@ -31,8 +20,8 @@ Jeder nennt seine Persönliche Vorstellungen, damit wir mit den gegebenen Ressou
 * Kollaboration ist unsere Stärke
 ** Entscheidungen sind bindend, d.h. sie werden unabhängig von der persönlichen Meinung umgesetzt
 * Absolute Verlässlichkeit
-** Lieber Aufgaben zurückweisen als Deadlines nicht einhalten +
-→ Wir haben nur 2 Wochen und können uns keine Verzögerung leisten (Aber: )
+** Lieber Aufgaben zurückweisen als durch Nichterfüllung Nachteile für die Teammitglieder zu erzuegen +
+** Berechtigterweise merkt Klaus an, dass dies nicht in Form von harten Deadlines geschehen muss. Der Wortlaut wurde entsprechend angepasst.
 * Dualismus von Kritik:
 .. nur konstruktive, rationale Kritik ist zulässlich
 .. Kritik ist eine Chance, kein Ärgernis
@@ -49,11 +38,14 @@ Programmers waste enormous amounts of time thinking about, or worrying about, th
 ** Kürze ist in Ordnung, die Existenz und Einsehbarkeit des Nachweis ist relevant
 
 === Technologie
-* Statements zum Solver
-* Statements zur Programmiersprache
-* Wahl des Kommunikationsmittels
-* Verfahren mit offenen Technologieentscheidungen
-** im Notfall Mehrheitsbeschluss (Betonung von struktiertem und kollaborativen Vorgehen)
+.Solver
+Resultat: Richard und Klaus haben sich über die Solver informiert, sie wollen abwarten bis der C Prototyp fertiggestellt ist.
+
+.Programmiersprache
+Es gab eine Diskussion ob Python oder C das Mittel der Wahl ist. Markus schreibt einen C Prototypen um die Performance mit Python zu vergleichen
+
+.Wahl des Kommunikationsmittels
+Einstimmig Slack
 
 === Konkrete Organisation
 
@@ -61,29 +53,29 @@ Programmers waste enormous amounts of time thinking about, or worrying about, th
 Woche 1: Erarbeiten der Features +
 Woche 2: Zusammenbringen und Feinschliff
 
+==== Verantwortlichkeiten
+Klaus erklärt sich verantwortlich, alle Informationen rund um die Anforderungen des Wettbewerbs sowie Tipps von den Tutoren zu sammeln und aufzubereiten. +
+Richard und Georg sind verantworlich für die Recherche und Umsetzung der Constraints und des Präprozessors. +
+Richard und Markus sind für die Codefusion im Repository verantwortlich. +
+Georg übernimmt die Verantwortung für die Planung.
+
 ==== Aufgabenverteilung
+|===
+| Wer ist verantwortlich? | Was s | Bis einschließlich
 
-===== Hohe Priorität
-* Recherche und Auswalh des Solvers, erarbeiten der korrekten Flags
-* Encodings und Verbesserungen
-* Präprozessor: implementieren oder nutzen
-* Planung
-** Zuweisung und Rechenschaft für das allgemeine Zusammenarbeiten (Prinzip der Verantwortlichkeit)
-** zweigeteilte Tasks
-** präzise und nicht überschneidende Tasks definieren
+| Markus | C Prototypen für den Performance Vergleich | 8.12
+| Markus | automatisches Profiling | 9.12
+| Markus | Privates Repository | 5.12
+| Klaus | Auswahl des Solvers | 12.12
+| Georg | Planung |
+|===
 
-* Anforderungen des Wettbewerbs überprüfen
-** Annahme: Wir dürfen alles verwenden. Als quantitatives Kriterium wird dabei die Zeit vom Programmstart per Kommandozeile bis zur Ausgabe der Lösung auf der Kommandozeile gewertet.
-* Tipps von den Tutoren koordinieren
-** Kontaktperson innerhalb der Gruppe
-
-===== geringe Priorität
-* automatisches Profiling
-** hängt vom Zeitbedarf für die Implementierung ab
+==== offene Ideen
 * Logikminimierer nachschauen
 
-===== Wenn Richard und Georgs Source Code übernommen werden sollte
-* Listen durch vorallokierte ndarrays ersetzen
 
 ==== weitere Termine
-Ist ein weiterer Termin gewünscht und wenn ja, wann haben alle Zeit?
+Der nächste Termin ist am Sa, den 8.12.2018 in der 6. DS. Markus hat angeboten, dass wir uns in seiner WG treffen.
+
+=== Fazit
+Markus, Klaus und Georg äußern sich sehr zufrieden über die Zusammenarbeit und sehen gute Chancen, den Wettbewerb zu gewinnen.
