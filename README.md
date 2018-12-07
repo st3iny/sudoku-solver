@@ -17,10 +17,10 @@ There are many example sudoku puzzles of various sizes in the `examples/sudokus`
 
 `main.py [-h] [--profiler] PATH`
 
-###### positional arguments:
+##### positional arguments:
 * `PATH` the sudoku puzzle to solve
 
-###### optional arguments:
+##### optional arguments:
 * `-h`, `--help` show this help message and exit
 * `--profiler` run the performance profiler (this will slow down the solver significantly)
 
