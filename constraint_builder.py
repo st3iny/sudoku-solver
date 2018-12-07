@@ -14,7 +14,6 @@ def build_constraints(puzzle, solver):
             clause = [literal.write(x, y, z, False, outer_size, outer_size_squared) for z in range(1, outer_size + 1)]
             solver.add_clause(clause)
 
-    print("Im here")
 
     # each number appears at most once in each row
     for y in range(1, outer_size + 1):
@@ -26,7 +25,6 @@ def build_constraints(puzzle, solver):
                         literal.write(i, y, z, True, outer_size, outer_size_squared),
                     ])
 
-    print("Im here")
 
 
     # each number appears at most once in each column
@@ -38,7 +36,6 @@ def build_constraints(puzzle, solver):
                         literal.write(x, y, z, True, outer_size, outer_size_squared),
                         literal.write(x, i, z, True, outer_size, outer_size_squared),
                     ])
-    print("Im here")
 
     # each number appears at most once in each subgrid
     for z in range(1, outer_size + 1):
@@ -63,7 +60,6 @@ def build_constraints(puzzle, solver):
                                     literal.write(inner_size * i + x, inner_size * j + y, z, True, outer_size, outer_size_squared),
                                     literal.write(inner_size * i + k, inner_size * j + l, z, True, outer_size, outer_size_squared),
                                 ])
-    print("Im here")
 
 
     # There is at most one number in
@@ -75,7 +71,6 @@ def build_constraints(puzzle, solver):
                         literal.write(x, y, z, True, outer_size, outer_size_squared),
                         literal.write(x, y, i, True, outer_size, outer_size_squared)
                     ])
-    print("Im here")
 
 
     # Each number appears at least once in each row
@@ -84,7 +79,6 @@ def build_constraints(puzzle, solver):
             clause = [literal.write(x, y, z, False, outer_size, outer_size_squared) for x in range(1, outer_size + 1)]
             solver.add_clause(clause)
 
-    print("Im here")
 
 
     # Each number appears at least once in each column
@@ -93,7 +87,6 @@ def build_constraints(puzzle, solver):
             clause = [literal.write(x, y, z, False, outer_size, outer_size_squared) for y in range(1, outer_size + 1)]
             solver.add_clause(clause)
 
-    print("Im here")
 
 
     # Each number appears at least once in each 3x3 sub-grid:
@@ -106,7 +99,6 @@ def build_constraints(puzzle, solver):
                         clause.append(literal.write(inner_size * i + x, inner_size * j + y, z, False, outer_size, outer_size_squared))
                 solver.add_clause(clause)
 
-    print("Im here")
 
 
     # initially set fields
@@ -116,5 +108,4 @@ def build_constraints(puzzle, solver):
             if z > 0:
                 solver.add_clause([literal.write(x + 1, y + 1, z, False, outer_size, outer_size_squared)])
 
-    print("Im here")
 

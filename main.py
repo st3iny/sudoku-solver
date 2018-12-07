@@ -1,3 +1,7 @@
+import cProfile
+import pstats
+from pathlib import Path
+
 from constraint_builder import build_constraints
 from input_parser import parse_input
 import math
@@ -52,7 +56,13 @@ if __name__ == '__main__':
     # run main for every given path
     for path in sys.argv[1:]:
         print('Solving {path} ...'.format(path=path))
-        main(path)
+
+        save_path = str(Path("out", "performance_profile"))
+        cProfile.run("main(path)", save_path)
+
+        print("\n\nProfiling result (sorted by time, full report in {}):\n".format(save_path))
+        p = pstats.Stats(save_path)
+        p.sort_stats(pstats.SortKey.TIME).print_stats(10)
 
         # print line seperators after all but the last path
         if path != sys.argv[-1]:
