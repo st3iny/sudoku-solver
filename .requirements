@@ -1,6 +1,2 @@
 flake8
-numpy
 pycryptosat
-pathlib
-cProfile
-pstats
