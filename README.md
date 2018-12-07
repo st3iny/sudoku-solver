@@ -11,6 +11,7 @@ There are many example sudoku puzzles of various sizes in the `examples/sudokus`
 * create virtualenv `virtualenv3 .env`
 * activate virtualenv `source .env/bin/activate`
 * install requirements `pip install -r .requirements`
+* *optional:* leave virtualenv `deactivate`
 
 ## Usage
 
