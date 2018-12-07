@@ -1,3 +1,4 @@
+from argparse import ArgumentParser
 from constraint_builder import build_constraints
 import cProfile
 from input_parser import parse_input
@@ -7,7 +8,6 @@ import os
 from pathlib import Path
 import pstats
 from pycryptosat import Solver
-import sys
 from test import test_model
 import time
 
@@ -52,21 +52,32 @@ def main(path):
 
 
 if __name__ == '__main__':
-    # run main for every given path
-    for path in sys.argv[1:]:
-        print('Solving {path} ...'.format(path=path))
+    # create argument parser
+    parser = ArgumentParser(description='Solve sudoku puzzles.')
+    parser.add_argument(
+        'path',
+        metavar='PATH',
+        type=str,
+        help='the sudoku puzzle to solve')
+    parser.add_argument(
+        '--profiler',
+        dest='profiler',
+        action='store_const',
+        const=True,
+        default=False,
+        help='run the performance profiler (this will slow down the solver significantly)'
+    )
 
+    # parse args
+    args = parser.parse_args()
+
+    # run main with or without profiler
+    print('solving {path} ...'.format(path=args.path))
+    if args.profiler:
         save_path = str(Path("out", "performance_profile"))
-        cProfile.run("main(path)", save_path)
-
+        cProfile.run("main(args.path)", save_path)
         print("\n\nProfiling result (sorted by time, full report in {}):\n".format(save_path))
         p = pstats.Stats(save_path)
         p.sort_stats(pstats.SortKey.TIME).print_stats(10)
-
-        # print line seperators after all but the last path
-        if path != sys.argv[-1]:
-            print('\n')
-
-    # no path given
-    if len(sys.argv) == 1:
-        print('No sudoku puzzle path given.')
+    else:
+        main(args.path)
