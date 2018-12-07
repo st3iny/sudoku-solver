@@ -15,12 +15,19 @@ There are many example sudoku puzzles of various sizes in the `examples/sudokus`
 
 ## Usage
 
-`python main.py FILES...`
+`main.py [-h] [--profiler] PATH`
 
-`FILES...` can be mulitple sudoku puzzle seperated by a space. The solver will write some debug output to the `out` dir.
+###### positional arguments:
+* `PATH` the sudoku puzzle to solve
+
+###### optional arguments:
+* `-h`, `--help` show this help message and exit
+* `--profiler` run the performance profiler (this will slow down the solver significantly)
+
+The solver will write some debug output to the `out` dir.
 
 ### Example
 
-Run the parser and solver for a 9x9 sudoku:
+Run the parser and solver for a 9x9 sudoku without the profiler:
 
 `python main.py examples/sudokus/table9-1.txt`
