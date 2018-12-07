@@ -1,12 +1,11 @@
-import cProfile
-import pstats
-from pathlib import Path
-
 from constraint_builder import build_constraints
+import cProfile
 from input_parser import parse_input
 import math
 from output_parser import parse_model, write_output
 import os
+from pathlib import Path
+import pstats
 from pycryptosat import Solver
 import sys
 from test import test_model
